@@ -1,0 +1,38 @@
+package com.dev.library.entity;
+
+import java.util.List;
+import java.util.ArrayList;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import lombok.Data;
+
+@Entity
+@Table(name = "tb_users")
+@Data
+public class User {
+
+	// Entity attributes
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(length = 100, nullable = false)
+	private String name;
+
+	@Column(length = 100, nullable = false, unique = true)
+	private String email;
+
+	// Tables relationships
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private LibraryCard libraryCard;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Loan> loans = new ArrayList<>();
+}
